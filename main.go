@@ -2,8 +2,12 @@ package main
 
 import (
 	c "breyting/blog-aggregator/internal/config"
+	"breyting/blog-aggregator/internal/database"
+	"database/sql"
 	"fmt"
 	"os"
+
+	_ "github.com/lib/pq"
 )
 
 func main() {
@@ -12,7 +16,14 @@ func main() {
 		panic(err)
 	}
 
+	db, err := sql.Open("postgres", cfg.DbURL)
+	if err != nil {
+		panic(err)
+	}
+	dbQueries := database.New(db)
+
 	newState := &c.State{
+		Db:     dbQueries,
 		Config: &cfg,
 	}
 
@@ -21,6 +32,9 @@ func main() {
 	}
 
 	commands.Register("login", c.HandlerLogin)
+	commands.Register("register", c.HandlerRegister)
+	commands.Register("reset", c.HandlerReset)
+	commands.Register("users", c.HandlerGetUsers)
 
 	if len(os.Args) < 2 {
 		fmt.Println("Error: command must have at least 2 arguments")
