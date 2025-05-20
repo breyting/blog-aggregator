@@ -50,7 +50,8 @@ func HandlerRegister(s *State, cmd Command) error {
 		ID:        uuid.New(),
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
-		Name:      cmd.Args[0]})
+		Name:      cmd.Args[0],
+	})
 	if err != nil {
 		os.Exit(1)
 	}

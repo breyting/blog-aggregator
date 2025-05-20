@@ -35,6 +35,9 @@ func main() {
 	commands.Register("register", c.HandlerRegister)
 	commands.Register("reset", c.HandlerReset)
 	commands.Register("users", c.HandlerGetUsers)
+	commands.Register("agg", c.HandlerFetchFeed)
+	commands.Register("addfeed", c.HandlerAddFeed)
+	commands.Register("feeds", c.HandlerGetFeeds)
 
 	if len(os.Args) < 2 {
 		fmt.Println("Error: command must have at least 2 arguments")
